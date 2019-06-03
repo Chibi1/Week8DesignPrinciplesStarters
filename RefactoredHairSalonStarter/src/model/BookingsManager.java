@@ -17,8 +17,7 @@ public class BookingsManager {
     // EFFECTS: books the customer into the requested timeslot if it is a valid timeslot,
     //          and lets the Customer know the booking time.
     public boolean makeNewBooking(Customer c, int bookingTime, Treatment treatment){
-        if (bookingTime >= bookings.size() || bookingTime+treatment.getHoursNeeded()>bookings.size()){
-            System.out.println("We can't process that booking time");
+        if (checkBookingTimeValidity(bookingTime, treatment)) {
             return false;
         }
         for (int i = bookingTime; i < bookingTime+treatment.getHoursNeeded(); i++) {
@@ -29,10 +28,17 @@ public class BookingsManager {
         return true;
     }
 
+    private boolean checkBookingTimeValidity(int bookingTime, Treatment treatment) {
+        if (bookingTime >= bookings.size() || bookingTime + treatment.getHoursNeeded() > bookings.size()) {
+            System.out.println("We can't process that booking time");
+            return true;
+        }
+        return false;
+    }
+
 
     public boolean cancelBooking(Customer c, int bookingTime, Treatment treatment){
-        if (bookingTime >= bookings.size() || bookingTime+treatment.getHoursNeeded()>bookings.size()){
-            System.out.println("We can't process that booking time");
+        if (checkBookingTimeValidity(bookingTime, treatment)) {
             return false;
         }
         for (int i = bookingTime; i < bookingTime+treatment.getHoursNeeded(); i++) {
